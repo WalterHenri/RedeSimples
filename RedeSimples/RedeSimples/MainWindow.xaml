@@ -1,0 +1,73 @@
+﻿<Window x:Class="RedeSimples.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RedeSimples"
+        mc:Ignorable="d"
+        Title="RedeSimples - Designer de Rede" Height="720" Width="1280" WindowState="Maximized">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" BorderBrush="Gainsboro" BorderThickness="0,0,1,0">
+            <StackPanel Margin="5">
+                <TextBlock Text="Ferramentas" FontWeight="Bold" Margin="5"/>
+                <ItemsControl x:Name="Toolbox" PreviewMouseLeftButtonDown="Toolbox_PreviewMouseLeftButtonDown">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="5" Tag="{Binding Tag}">
+                                <Image Source="{Binding ImagePath}" Width="100" Height="80" ToolTip="{Binding Name}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <Canvas x:Name="MainCanvas" Grid.Column="1" Background="WhiteSmoke" AllowDrop="True" Drop="MainCanvas_Drop" />
+
+        <Border Grid.Column="2" BorderBrush="Gainsboro" BorderThickness="1,0,0,0">
+            <DockPanel Width="300">
+                <StackPanel x:Name="PropertiesPanel" Margin="10" Width="250" Visibility="Collapsed">
+                    <TextBlock Text="Propriedades" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+
+                    <Label Content="Nome:"/>
+                    <TextBox x:Name="TxtName" TextChanged="TxtName_TextChanged" Margin="0,0,0,10"/>
+
+                    <Label Content="Endereço IP:"/>
+                    <TextBox x:Name="TxtIpAddress" TextChanged="TxtIpAddress_TextChanged" Margin="0,0,0,10"/>
+
+                    <Button x:Name="BtnPing" Content="Ping" Click="BtnPing_Click" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Saída:" FontWeight="SemiBold" Margin="0,10,0,5"/>
+                    <Border BorderBrush="LightGray" BorderThickness="1" Background="GhostWhite" Height="150">
+                        <ScrollViewer>
+                            <TextBlock x:Name="TxtOutput" TextWrapping="Wrap" Margin="5"/>
+                        </ScrollViewer>
+                    </Border>
+                </StackPanel>
+                <StackPanel x:Name="RoomPropertiesPanel" Visibility="Collapsed" Margin="10" Width="200">
+                    <TextBlock Text="Propriedades do Cômodo" FontWeight="Bold" Margin="5"/>
+                    <Separator/>
+
+                    <Label Content="Nome:" Margin="5,5,5,0"/>
+                    <TextBox x:Name="TxtRoomName" Margin="5,0,5,5" TextChanged="TxtRoomName_TextChanged"/>
+
+                    <Label Content="Cor de Fundo (Hex):" Margin="5,5,5,0"/>
+                    <TextBox x:Name="TxtRoomBackgroundColor" Margin="5,0,5,5" TextChanged="TxtRoomBackgroundColor_TextChanged"/>
+
+                    <Label Content="Cor da Borda (Hex):" Margin="5,5,5,0"/>
+                    <TextBox x:Name="TxtRoomBorderColor" Margin="5,0,5,5" TextChanged="TxtRoomBorderColor_TextChanged"/>
+
+                    <Label Content="Espessura da Borda:" Margin="5,5,5,0"/>
+                    <Slider x:Name="SliderBorderThickness" Minimum="1" Maximum="10" Value="2" Margin="5,0,5,5" ValueChanged="SliderBorderThickness_ValueChanged"/>
+                </StackPanel>
+            </DockPanel>
+            
+        </Border>
+    </Grid>
+</Window>

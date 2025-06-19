@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36202.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedeSimples", "RedeSimples\RedeSimples.csproj", "{1F283D39-0708-4F80-AE7E-AE93F869BAEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{CC44A303-BDDC-44F1-A1FD-FD8959BE7C33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{3DE19237-AA21-4E96-9F56-050C83287F5A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		Assets\pc.png = Assets\pc.png
+		Assets\printer.png = Assets\printer.png
+		Assets\router.png = Assets\router.png
+		C:\Users\walte\Downloads\room.png = C:\Users\walte\Downloads\room.png
+		Assets\switch.png = Assets\switch.png
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1F283D39-0708-4F80-AE7E-AE93F869BAEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F283D39-0708-4F80-AE7E-AE93F869BAEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F283D39-0708-4F80-AE7E-AE93F869BAEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F283D39-0708-4F80-AE7E-AE93F869BAEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC44A303-BDDC-44F1-A1FD-FD8959BE7C33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC44A303-BDDC-44F1-A1FD-FD8959BE7C33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC44A303-BDDC-44F1-A1FD-FD8959BE7C33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC44A303-BDDC-44F1-A1FD-FD8959BE7C33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DE19237-AA21-4E96-9F56-050C83287F5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DE19237-AA21-4E96-9F56-050C83287F5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DE19237-AA21-4E96-9F56-050C83287F5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DE19237-AA21-4E96-9F56-050C83287F5A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DEDB3D8F-2FE6-4AA3-AC53-A23213AC4CCF}
+	EndGlobalSection
+EndGlobal

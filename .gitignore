@@ -1,0 +1,42 @@
+# Arquivos e pastas de cache do Visual Studio e .NET
+[Bb]in/
+[Oo]bj/
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Arquivos do Resharper (se aplicável)
+_ReSharper*/
+*.[Rr]esharper
+*.DotSettings.user
+
+# Arquivos de build e publicação
+[Rr]elease/
+[Dd]ebug/
+x64/
+x86/
+build/
+Build/
+bld/
+publish/
+
+# Arquivos de pacotes NuGet
+*.nupkg
+*.nuget.props
+*.nuget.targets
+packages/
+
+# Outros
+*.log
+*.tlog
+*.dll
+*.pdb
+*.exe
+
+# Arquivos de sistema operacional
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
