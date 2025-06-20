@@ -62,6 +62,97 @@ namespace RedeSimples
             MainCanvas.MouseRightButtonDown += MainCanvas_MouseRightButtonDown;
         }
 
+        #region Exclusão de Elemento
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Deleta o elemento selecionado quando a tecla "Delete" é pressionada
+            if (e.Key == Key.Delete)
+            {
+                DeleteSelectedElement();
+            }
+        }
+
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            // Lida com o clique do botão "Excluir"
+            DeleteSelectedElement();
+        }
+
+        private void DeleteSelectedElement()
+        {
+            // Verifica se há um elemento selecionado
+            if (_selectedElement == null) return;
+
+            // Confirma a exclusão com o usuário
+            var result = MessageBox.Show("Tem certeza que deseja excluir o item selecionado e todos os cabos conectados a ele (se aplicável)?", "Confirmar Exclusão", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+
+            // Lida com a exclusão de um dispositivo de rede
+            if (_selectedDevice != null)
+            {
+                // Encontra e remove os cabos de rede conectados ao dispositivo
+                var connectedCables = _networkCables.Where(nc => nc.ConnectedDevices.Contains(_selectedDevice)).ToList();
+                var canvasLines = MainCanvas.Children.OfType<Line>().ToList();
+
+                foreach (var networkCable in connectedCables)
+                {
+                    // Remove os segmentos visuais do cabo (linhas)
+                    foreach (var segment in networkCable.Cables)
+                    {
+                        var lineToRemove = canvasLines.FirstOrDefault(l =>
+                            (l.X1 == segment.StartX && l.Y1 == segment.StartY && l.X2 == segment.EndX && l.Y2 == segment.EndY) ||
+                            (l.X1 == segment.EndX && l.Y1 == segment.EndY && l.X2 == segment.StartX && l.Y2 == segment.StartY)
+                        );
+
+                        if (lineToRemove != null)
+                        {
+                            MainCanvas.Children.Remove(lineToRemove);
+                        }
+                    }
+                    // Remove o objeto de dados do cabo
+                    _networkCables.Remove(networkCable);
+                }
+                // Remove o objeto de dados do dispositivo
+                _devices.Remove(_selectedDevice);
+            }
+
+            // Lida com a exclusão de um cômodo
+            if (_selectedRoom != null)
+            {
+                _rooms.Remove(_selectedRoom);
+            }
+
+            // Remove o elemento visual principal (seja dispositivo ou cômodo)
+            MainCanvas.Children.Remove(_selectedElement);
+
+            // Remove o adorner de redimensionamento, se existir
+            if (_resizingAdorner != null)
+            {
+                _adornerLayer?.Remove(_resizingAdorner);
+                _resizingAdorner = null;
+            }
+
+            // Reseta o estado da seleção e da interface
+            _selectedElement = null;
+            _selectedDevice = null;
+            _selectedRoom = null;
+            PropertiesPanel.Visibility = Visibility.Collapsed;
+            RoomPropertiesPanel.Visibility = Visibility.Collapsed;
+        }
+        #endregion
+
+        private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Permite arrastar a janela
+            if (e.ButtonState == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
+        }
+
         #region Salvar e Abrir
 
         private void Abrir_Click(object sender, RoutedEventArgs e)
@@ -396,6 +487,36 @@ namespace RedeSimples
         #endregion
 
 
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Fecha a aplicação
+            Application.Current.Shutdown();
+        }
+
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Maximiza ou restaura a janela
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal;
+                // Altera o ícone para "Maximizar"
+                MaximizeButton.Content = "\uE922";
+            }
+            else
+            {
+                this.WindowState = WindowState.Maximized;
+                // Altera o ícone para "Restaurar"
+                MaximizeButton.Content = "\uE923";
+            }
+        }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Minimiza a janela
+            this.WindowState = WindowState.Minimized;
+        }
+
         private T? FindVisualParent<T>(DependencyObject obj) where T : DependencyObject
         {
             while (obj != null)
@@ -614,8 +735,20 @@ namespace RedeSimples
                 RoomPropertiesPanel.Visibility = Visibility.Visible;
                 PropertiesPanel.Visibility = Visibility.Collapsed;
                 TxtRoomName.Text = _selectedRoom.Name;
-                TxtRoomBackgroundColor.Text = _selectedRoom.BackgroundColor;
-                TxtRoomBorderColor.Text = _selectedRoom.BorderColor;
+
+                // Tenta converter a string de cor salva para o ColorPicker
+                try
+                {
+                    PickerBackgroundColor.SelectedColor = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(_selectedRoom.BackgroundColor);
+                    PickerBorderColor.SelectedColor = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(_selectedRoom.BorderColor);
+                }
+                catch
+                {
+                    // Define cores padrão se a conversão falhar
+                    PickerBackgroundColor.SelectedColor = System.Windows.Media.Colors.Gray;
+                    PickerBorderColor.SelectedColor = System.Windows.Media.Colors.DarkGray;
+                }
+
                 SliderBorderThickness.Value = _selectedRoom.BorderThickness;
             }
             else
@@ -633,31 +766,22 @@ namespace RedeSimples
             }
         }
 
-        private void TxtRoomBackgroundColor_TextChanged(object sender, TextChangedEventArgs e)
+        // ADICIONE ESTES NOVOS MÉTODOS
+        private void PickerBackgroundColor_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
         {
-            if (_selectedRoom != null && _selectedElement is Border border)
+            if (_selectedRoom != null && _selectedElement is Border border && e.NewValue.HasValue)
             {
-                try
-                {
-                    var brush = (Brush)new BrushConverter().ConvertFromString(TxtRoomBackgroundColor.Text);
-                    border.Background = brush;
-                    _selectedRoom.BackgroundColor = TxtRoomBackgroundColor.Text;
-                }
-                catch { /* Ignora cores inválidas */ }
+                border.Background = new SolidColorBrush(e.NewValue.Value);
+                _selectedRoom.BackgroundColor = e.NewValue.Value.ToString();
             }
         }
 
-        private void TxtRoomBorderColor_TextChanged(object sender, TextChangedEventArgs e)
+        private void PickerBorderColor_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
         {
-            if (_selectedRoom != null && _selectedElement is Border border)
+            if (_selectedRoom != null && _selectedElement is Border border && e.NewValue.HasValue)
             {
-                try
-                {
-                    var brush = (Brush)new BrushConverter().ConvertFromString(TxtRoomBorderColor.Text);
-                    border.BorderBrush = brush;
-                    _selectedRoom.BorderColor = TxtRoomBorderColor.Text;
-                }
-                catch { /* Ignora cores inválidas */ }
+                border.BorderBrush = new SolidColorBrush(e.NewValue.Value);
+                _selectedRoom.BorderColor = e.NewValue.Value.ToString();
             }
         }
 

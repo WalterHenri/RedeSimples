@@ -4,86 +4,187 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RedeSimples"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="RedeSimples - Ferramenta de Visualização de Rede" Height="720" Width="1280">
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_Arquivo">
-                <MenuItem Header="_Abrir" Click="Abrir_Click"/>
-                <MenuItem Header="_Salvar" Click="Salvar_Click"/>
-                <MenuItem Header="Salvar _Como..." Click="SalvarComo_Click"/>
-            </MenuItem>
-        </Menu>
+        Title="RedeSimples - Ferramenta de Visualização de Rede" Height="720" Width="1280"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        KeyDown="MainWindow_KeyDown" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+    <Window.Resources>
+        <Style x:Key="ToolboxItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4"
+                            Padding="{TemplateBinding Padding}">
+                            <ContentPresenter />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E5F3FF"/>
+                    <Setter Property="BorderBrush" Value="#B8D6F0"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#CCE8FF"/>
+                    <Setter Property="BorderBrush" Value="#99C9F5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
-        <TabControl>
-            <TabItem Header="Diagrama de Rede">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="250"/>
-                    </Grid.ColumnDefinitions>
+        <Style x:Key="ModernButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource BrushAccent}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="#ADADAD"/>
+            <Setter Property="Padding" Value="10, 10"/>
+            <Setter Property="Height" Value="30"/>
+            
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource BrushAccentHover}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#CCE8FF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Border BorderBrush="#FFB0B0B0" BorderThickness="1" Background="{StaticResource BrushWindowBackground}" CornerRadius="5">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-                    <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="1">
-                        <StackPanel>
-                            <TextBlock Text="Caixa de Ferramentas" FontWeight="Bold" Margin="5"/>
-                            <ItemsControl x:Name="Toolbox" PreviewMouseLeftButtonDown="Toolbox_PreviewMouseLeftButtonDown">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="5">
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Source="{Binding ImagePath}" Width="32" Height="32" Margin="0,0,10,0" />
-                                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+            <Grid Grid.Row="0" Height="30" Background="Transparent" >
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                        <Button x:Name="MinimizeButton" Content="&#xE921;" Style="{StaticResource TitleBarButtonStyle}" Click="MinimizeButton_Click"/>
+                        <Button x:Name="MaximizeButton" Content="&#xE922;" Style="{StaticResource TitleBarButtonStyle}" Click="MaximizeButton_Click"/>
+                        <Button x:Name="CloseButton" Content="&#xE8BB;" Style="{StaticResource CloseButtonStyle}" Click="CloseButton_Click"/>
+                    </StackPanel>
+
+                    <Menu VerticalAlignment="Center" Margin="10,0,0,0">
+                        <MenuItem Header="_Arquivo">
+                            <MenuItem Header="_Abrir" Click="Abrir_Click"/>
+                            <MenuItem Header="_Salvar" Click="Salvar_Click"/>
+                            <MenuItem Header="Salvar _Como..." Click="SalvarComo_Click"/>
+                        </MenuItem>
+                    </Menu>
+                </DockPanel>
+            </Grid>
+
+            <TabControl Grid.Row="1" Margin="5,0,5,5">
+                <TabItem Header="Diagrama de Rede">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="300"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Background="#F5F5F5">
+                            <TextBlock Text="Caixa de Ferramentas" FontWeight="Bold" Margin="10,10,10,5" FontSize="14" Foreground="#333"/>
+                            <Border BorderBrush="#DADADA" BorderThickness="1" Margin="5" CornerRadius="4" Background="White">
+                                <ListBox x:Name="Toolbox"
+                 PreviewMouseLeftButtonDown="Toolbox_PreviewMouseLeftButtonDown"
+                 Background="Transparent"
+                 BorderThickness="0"
+                 ItemContainerStyle="{StaticResource ToolboxItemStyle}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                <Image Source="{Binding ImagePath}" Width="24" Height="24" Margin="0,0,10,0" />
+                                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontSize="12" Foreground="#333" />
                                             </StackPanel>
-                                        </Border>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                            <Button x:Name="BtnPassarCabo" Content="Passar Cabo" Margin="5" Click="BtnPassarCabo_Click"/>
-                        </StackPanel>
-                    </Border>
-
-                    <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        <Canvas x:Name="MainCanvas" Width="2000" Height="2000" Background="WhiteSmoke" Drop="MainCanvas_Drop" AllowDrop="True"/>
-                    </ScrollViewer>
-
-                    <Border Grid.Column="2" BorderBrush="Gainsboro" BorderThickness="1,0,0,0">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto">
-                            <StackPanel Margin="10">
-                                <StackPanel x:Name="PropertiesPanel" Visibility="Collapsed">
-                                    <TextBlock Text="Propriedades do Dispositivo" FontWeight="Bold"/>
-                                    <TextBlock Text="Nome:" Margin="0,10,0,0"/>
-                                    <TextBox x:Name="TxtName" TextChanged="TxtName_TextChanged"/>
-                                    <TextBlock Text="Endereço IP:" Margin="0,10,0,0"/>
-                                    <TextBox x:Name="TxtIpAddress" TextChanged="TxtIpAddress_TextChanged"/>
-                                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                        <Button x:Name="BtnPing" Content="Ping" Click="BtnPing_Click"/>
-                                        <Button x:Name="BtnTraceRoute" Content="TraceRoute" Margin="5,0,0,0" Click="BtnTraceRoute_Click"/>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Border>
+                            <Button x:Name="BtnPassarCabo"
+        Click="BtnPassarCabo_Click"
+        Margin="5,10,5,5"
+        Style="{StaticResource ModernButtonStyle}">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <!-- 1. O Ícone (Path). Ajustei o tamanho e adicionei alinhamento vertical. -->
+                                        <Image Source="D:\\Projects\\RedeSimples\\RedeSimples\\Assets\\cable_icon.png" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        <!-- 2. O Texto, dentro de um TextBlock para melhor controle, com uma margem para espaçamento. -->
+                                        <TextBlock Text="Passar Cabo" VerticalAlignment="Center" Margin="8,0,0,0" />
                                     </StackPanel>
-                                    <TextBlock Text="Saída do Comando:" Margin="0,10,0,0"/>
-                                    <TextBox x:Name="TxtOutput" Height="150" IsReadOnly="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"/>
+                                </Button.Content>
+                            </Button>
+
+                        </StackPanel>
+
+                        <Border Grid.Column="1" BorderBrush="{StaticResource BrushBorder}" BorderThickness="1" Background="White">
+                            <Canvas x:Name="MainCanvas" Drop="MainCanvas_Drop" AllowDrop="True" Background="White"/>
+                        </Border>
+
+                        <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" Margin="5,0,0,0">
+                            <StackPanel>
+                                <StackPanel x:Name="PropertiesPanel" Visibility="Collapsed" >
+                                    <TextBlock Text="Propriedades do Dispositivo" FontWeight="Bold" Margin="5,10,5,5"/>
+                                    <TextBlock Text="Nome:" Margin="5"/>
+                                    <TextBox x:Name="TxtName" Margin="5" TextChanged="TxtName_TextChanged"/>
+                                    <TextBlock Text="Endereço IP:" Margin="5"/>
+                                    <TextBox x:Name="TxtIpAddress" Margin="5" TextChanged="TxtIpAddress_TextChanged"/>
+                                    <StackPanel Orientation="Horizontal" Margin="5">
+                                        <Button x:Name="BtnPing" Content="Ping" Click="BtnPing_Click" Margin="0,0,5,0"/>
+                                        <Button x:Name="BtnTraceRoute" Content="TraceRoute" Click="BtnTraceRoute_Click"/>
+                                    </StackPanel>
+                                    <TextBlock Text="Saída do Comando:" Margin="5"/>
+                                    <TextBox x:Name="TxtOutput" IsReadOnly="True" Height="100" Margin="5" VerticalScrollBarVisibility="Auto"/>
+                                    <Button x:Name="BtnDeleteDevice" Content="Excluir Dispositivo" Click="BtnDelete_Click" Margin="5"/>
                                 </StackPanel>
 
-                                <StackPanel x:Name="RoomPropertiesPanel" Visibility="Collapsed" Margin="0,20,0,0">
-                                    <TextBlock Text="Propriedades do Cômodo" FontWeight="Bold"/>
-                                    <TextBlock Text="Nome:" Margin="0,10,0,0"/>
-                                    <TextBox x:Name="TxtRoomName" TextChanged="TxtRoomName_TextChanged"/>
-                                    <TextBlock Text="Cor de Fundo (Hex):" Margin="0,10,0,0"/>
-                                    <TextBox x:Name="TxtRoomBackgroundColor" TextChanged="TxtRoomBackgroundColor_TextChanged"/>
-                                    <TextBlock Text="Cor da Borda (Hex):" Margin="0,10,0,0"/>
-                                    <TextBox x:Name="TxtRoomBorderColor" TextChanged="TxtRoomBorderColor_TextChanged"/>
-                                    <TextBlock Text="Espessura da Borda:" Margin="0,10,0,0"/>
-                                    <Slider x:Name="SliderBorderThickness" Minimum="1" Maximum="10" ValueChanged="SliderBorderThickness_ValueChanged"/>
+                                <StackPanel x:Name="RoomPropertiesPanel" Visibility="Collapsed">
+                                    <TextBlock Text="Propriedades do Cômodo" FontWeight="Bold" Margin="5,10,5,5"/>
+                                    <TextBlock Text="Nome:" Margin="5"/>
+                                    <TextBox x:Name="TxtRoomName" Margin="5" TextChanged="TxtRoomName_TextChanged"/>
+                                    <TextBlock Text="Cor de Fundo:" Margin="5"/>
+                                    <xctk:ColorPicker x:Name="PickerBackgroundColor" Margin="5" SelectedColorChanged="PickerBackgroundColor_SelectedColorChanged"/>
+                                    <TextBlock Text="Cor da Borda:" Margin="5"/>
+                                    <xctk:ColorPicker x:Name="PickerBorderColor" Margin="5" SelectedColorChanged="PickerBorderColor_SelectedColorChanged"/>
+                                    <TextBlock Text="Espessura da Borda:" Margin="5"/>
+                                    <Slider x:Name="SliderBorderThickness" Minimum="1" Maximum="10" Value="2" Margin="5" ValueChanged="SliderBorderThickness_ValueChanged"/>
+                                    <Button x:Name="BtnDeleteRoom" Content="Excluir Cômodo" Click="BtnDelete_Click" Margin="5"/>
                                 </StackPanel>
                             </StackPanel>
                         </ScrollViewer>
-                    </Border>
-                </Grid>
-            </TabItem>
-
-            <TabItem Header="Status da Rede">
-                <local:NetstatControl />
-            </TabItem>
-        </TabControl>
-    </DockPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Status da Rede">
+                    <local:NetstatControl/>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Border>
 </Window>
