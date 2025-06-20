@@ -14,6 +14,6 @@ namespace Models
         public int EndX { get; set; } = 0;
         public int EndY { get; set; } = 0;
         public int Size { get; set; } = 0;
-        public string Color { get; set; } = "Black";
+        public string Color { get; set; } = "#0000FF"; 
     }
 }

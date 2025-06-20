@@ -35,6 +35,15 @@ public class NetworkCommandService
         return RunCommandAsync("ping", $"-n 1 {ipAddress}");
     }
 
+    public Task<string> GetNetstatAsync(string arguments)
+    {
+        if (string.IsNullOrWhiteSpace(arguments))
+        {
+            return RunCommandAsync("netstat", "");
+        }
+        return RunCommandAsync("netstat", arguments);
+    }
+
     public Task<string> PingAsync(string ipAddress, int pacotes)
     {
         
