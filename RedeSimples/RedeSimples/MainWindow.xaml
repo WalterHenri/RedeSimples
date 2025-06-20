@@ -156,13 +156,13 @@
                                     <TextBox x:Name="TxtName" Margin="5" TextChanged="TxtName_TextChanged"/>
                                     <TextBlock Text="Endereço IP:" Margin="5"/>
                                     <TextBox x:Name="TxtIpAddress" Margin="5" TextChanged="TxtIpAddress_TextChanged"/>
-                                    <StackPanel Orientation="Horizontal" Margin="5">
-                                        <Button x:Name="BtnPing" Content="Ping" Click="BtnPing_Click" Margin="0,0,5,0"/>
-                                        <Button x:Name="BtnTraceRoute" Content="TraceRoute" Click="BtnTraceRoute_Click"/>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                                        <Button x:Name="BtnPing" Style="{StaticResource ModernButtonStyle}" Width="120" Content="Testar Conexão" Click="BtnPing_Click" Margin="5,0,5,0"/>
+                                        <Button x:Name="BtnTraceRoute" Style="{StaticResource ModernButtonStyle}" Width="120" Content="Traçar Rota" Click="BtnTraceRoute_Click"/>
                                     </StackPanel>
                                     <TextBlock Text="Saída do Comando:" Margin="5"/>
                                     <TextBox x:Name="TxtOutput" IsReadOnly="True" Height="100" Margin="5" VerticalScrollBarVisibility="Auto"/>
-                                    <Button x:Name="BtnDeleteDevice" Content="Excluir Dispositivo" Click="BtnDelete_Click" Margin="5"/>
+                                    <Button x:Name="BtnDeleteDevice" Style="{StaticResource ModernButtonStyle}" Background="{StaticResource BrushError}" Content="Excluir Dispositivo" Click="BtnDelete_Click" Margin="5"/>
                                 </StackPanel>
 
                                 <StackPanel x:Name="RoomPropertiesPanel" Visibility="Collapsed">
@@ -175,7 +175,7 @@
                                     <xctk:ColorPicker x:Name="PickerBorderColor" Margin="5" SelectedColorChanged="PickerBorderColor_SelectedColorChanged"/>
                                     <TextBlock Text="Espessura da Borda:" Margin="5"/>
                                     <Slider x:Name="SliderBorderThickness" Minimum="1" Maximum="10" Value="2" Margin="5" ValueChanged="SliderBorderThickness_ValueChanged"/>
-                                    <Button x:Name="BtnDeleteRoom" Content="Excluir Cômodo" Click="BtnDelete_Click" Margin="5"/>
+                                    <Button x:Name="BtnDeleteRoom" Style="{StaticResource ModernButtonStyle}" Background="{StaticResource BrushError}" Content="Excluir Cômodo" Click="BtnDelete_Click" Margin="5"/>
                                 </StackPanel>
                             </StackPanel>
                         </ScrollViewer>

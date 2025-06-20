@@ -12,6 +12,8 @@ namespace Models
         public string Name { get; set; } = string.Empty;
         public string IP { get; set; } = string.Empty;
         public string MAC { get; set; } = string.Empty;
+        public string model { get; set; } = string.Empty;
+        public string brand { get; set; } = string.Empty;
         public Rectangle Rectangle { get; set; } = new Rectangle();
 
         [XmlIgnore] 

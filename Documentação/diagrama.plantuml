@@ -1,0 +1,110 @@
+@startuml Models
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam classBackgroundColor White
+skinparam classBorderColor Black
+skinparam arrowColor Black
+
+package "Models" {
+
+  class CanvasState {
+    + Devices: List<NetworkDevice>
+    + Rooms: List<Room>
+    + Cables: List<NetworkCable>
+  }
+
+  abstract class NetworkDevice {
+    + Id: int
+    + Name: string
+    + IP: string
+    + MAC: string
+    + Rectangle: Rectangle
+    + Room: Room?
+  }
+
+  class PC extends NetworkDevice {
+    + OS: string
+    + CPU: string
+    + RAM: int
+    + Storage: int
+  }
+
+  class Router extends NetworkDevice {
+    + model: string
+    + brand: string
+  }
+
+  class Switch extends NetworkDevice {
+    + Model: string
+    + Brand: string
+  }
+
+  class Printer extends NetworkDevice {
+    + Model: string
+    + Brand: string
+  }
+
+  class Room {
+    + Name: string
+    + Description: string
+    + Rectangle: Rectangle
+    + BackgroundColor: string
+    + BorderColor: string
+    + BorderThickness: double
+    + NetworkDevices: List<NetworkDevice>
+  }
+
+  class NetworkCable {
+    + Id: int
+    + Description: string
+    + ConnectedDevices: List<NetworkDevice>
+    + Cables: List<Cable>
+  }
+
+  class Cable {
+    + Index: int
+    + StartX: int
+    + StartY: int
+    + EndX: int
+    + EndY: int
+    + Size: int
+    + Color: string
+  }
+
+  class Rectangle {
+    + X: int
+    + Y: int
+    + Width: int
+    + Height: int
+  }
+
+  class NetstatEntry {
+    + Protocol: string
+    + LocalAddress: string
+    + ForeignAddress: string
+    + State: string?
+    + PID: int
+    + ProcessName: string
+  }
+
+  package "Enum" {
+    enum ToolState {
+      Select
+      DrawingCable
+    }
+  }
+
+  ' --- Relações ---
+  CanvasState o-- "0..*" NetworkDevice
+  CanvasState o-- "0..*" Room
+  CanvasState o-- "0..*" NetworkCable
+
+  Room "1" *-- "0..*" NetworkDevice
+  NetworkDevice "1" *-- "1" Rectangle
+
+  Room "1" *-- "1" Rectangle
+
+  NetworkCable o-- "0..*" NetworkDevice
+  NetworkCable "1" *-- "1..*" Cable
+}
+@enduml

@@ -9,8 +9,8 @@ namespace Models
 {
     public class Router : NetworkDevice
     {
-        public string model { get; set; } = string.Empty;
-        public string brand { get; set; } = string.Empty;
+        public string Producer { get; set; } = string.Empty;
+        public int Uptime { get; set; } = 0; // in minutes
 
         public Router(string name, string ip, string mac, Rectangle rectangle, string model, string brand)
             : base(name, ip, mac, rectangle)
