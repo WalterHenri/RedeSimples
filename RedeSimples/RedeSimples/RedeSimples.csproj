@@ -9,12 +9,36 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\cable_icon.png" />
+    <None Remove="Assets\cursor.cur" />
+    <None Remove="Assets\cursor.png" />
+    <None Remove="Assets\pc.png" />
+    <None Remove="Assets\printer.png" />
+    <None Remove="Assets\room.png" />
+    <None Remove="Assets\router.png" />
+    <None Remove="Assets\switch.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Models\Models.csproj" />
     <ProjectReference Include="..\Service\Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\cable_icon.png" />
+    <Resource Include="Assets\cursor.cur">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\cursor.png" />
+    <Resource Include="Assets\pc.png" />
+    <Resource Include="Assets\printer.png" />
+    <Resource Include="Assets\room.png" />
+    <Resource Include="Assets\router.png" />
+    <Resource Include="Assets\switch.png" />
   </ItemGroup>
 
 </Project>

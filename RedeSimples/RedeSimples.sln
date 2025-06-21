@@ -9,15 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{3DE19237-AA21-4E96-9F56-050C83287F5A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
-	ProjectSection(SolutionItems) = preProject
-		Assets\pc.png = Assets\pc.png
-		Assets\printer.png = Assets\printer.png
-		Assets\router.png = Assets\router.png
-		C:\Users\walte\Downloads\room.png = C:\Users\walte\Downloads\room.png
-		Assets\switch.png = Assets\switch.png
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

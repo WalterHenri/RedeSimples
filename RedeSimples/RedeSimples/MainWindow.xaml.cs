@@ -311,16 +311,29 @@ namespace RedeSimples
         #endregion
 
         #region Passar Cabo
+        // Dentro de MainWindow.xaml.cs
         private void LoadCableCursor()
         {
-            string cursorPath = "D:\\Projects\\RedeSimples\\RedeSimples\\Assets\\cursor.cur";
-            if (File.Exists(cursorPath))
+            try
             {
-                _cableCursor = new Cursor(cursorPath);
+                
+                var uri = new Uri("/Assets/cursor.cur", UriKind.Relative);
+                var streamInfo = Application.GetResourceStream(uri);
+
+                if (streamInfo != null)
+                {
+                    _cableCursor = new Cursor(streamInfo.Stream);
+                }
+                else
+                {
+                    MessageBox.Show("Recurso do cursor 'Assets/cursor.cur' não encontrado. Verifique se o arquivo existe e se sua 'Build Action' está como 'Resource'.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Arquivo do cursor não encontrado: " + cursorPath);
+                MessageBox.Show($"Ocorreu um erro ao carregar o cursor: {ex.Message}");
+                // Define um cursor padrão como alternativa para não quebrar a aplicação
+                _cableCursor = Cursors.Cross;
             }
         }
 
@@ -564,11 +577,11 @@ namespace RedeSimples
         {
             var toolboxItems = new List<ToolboxItem>
             {
-                new ToolboxItem { Name = "Computador", ImagePath = "D:\\Projects\\RedeSimples\\RedeSimples\\Assets\\pc.png", Tag = "PC" },
-                new ToolboxItem { Name = "Roteador", ImagePath = "D:\\Projects\\RedeSimples\\RedeSimples\\Assets\\router.png", Tag = "Router" },
-                new ToolboxItem { Name = "Switch", ImagePath = "D:\\Projects\\RedeSimples\\RedeSimples\\Assets\\switch.png", Tag = "Switch" },
-                new ToolboxItem { Name = "Impressora", ImagePath = "D:\\Projects\\RedeSimples\\RedeSimples\\Assets\\printer.png", Tag = "Printer" },
-                new ToolboxItem { Name = "Cômodo", ImagePath = "C:\\Users\\walte\\Downloads\\room.png", Tag = "Room" }
+                new ToolboxItem { Name = "Computador", ImagePath = "\\Assets\\pc.png", Tag = "PC" },
+                new ToolboxItem { Name = "Roteador", ImagePath = "\\Assets\\router.png", Tag = "Router" },
+                new ToolboxItem { Name = "Switch", ImagePath = "\\Assets\\switch.png", Tag = "Switch" },
+                new ToolboxItem { Name = "Impressora", ImagePath = "\\Assets\\printer.png", Tag = "Printer" },
+                new ToolboxItem { Name = "Cômodo", ImagePath = "\\Assets\\room.png", Tag = "Room" }
             };
             Toolbox.ItemsSource = toolboxItems;
         }
@@ -671,7 +684,7 @@ namespace RedeSimples
 
         private ImageSource GetImageSourceForDevice(NetworkDevice device)
         {
-            string basePath = "D:\\Projects\\RedeSimples\\RedeSimples\\Assets\\";
+            string basePath = "\\Assets\\";
             string path = device switch
             {
                 PC => basePath + "pc.png",
@@ -680,7 +693,7 @@ namespace RedeSimples
                 Printer => basePath + "printer.png",
                 _ => ""
             };
-            return new BitmapImage(new Uri(path, UriKind.Absolute));
+            return new BitmapImage(new Uri(path, UriKind.Relative));
         }
         #endregion
 

@@ -128,18 +128,17 @@
                                     </ListBox.ItemTemplate>
                                 </ListBox>
                             </Border>
-                            <Button x:Name="BtnPassarCabo"
-        Click="BtnPassarCabo_Click"
-        Margin="5,10,5,5"
-        Style="{StaticResource ModernButtonStyle}">
-                                <Button.Content>
-                                    <StackPanel Orientation="Horizontal">
-                                        <!-- 1. O Ícone (Path). Ajustei o tamanho e adicionei alinhamento vertical. -->
-                                        <Image Source="D:\\Projects\\RedeSimples\\RedeSimples\\Assets\\cable_icon.png" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                        <!-- 2. O Texto, dentro de um TextBlock para melhor controle, com uma margem para espaçamento. -->
-                                        <TextBlock Text="Passar Cabo" VerticalAlignment="Center" Margin="8,0,0,0" />
-                                    </StackPanel>
-                                </Button.Content>
+                            <Button x:Name="BtnPassarCabo"  
+                                    Click="BtnPassarCabo_Click"  
+                                    Margin="5,10,5,5"  
+                                    Style="{StaticResource ModernButtonStyle}">  
+                                <Button.Content>  
+                                    <StackPanel Orientation="Horizontal">  
+                                        <!-- Updated the Image Source path to use a relative URI format compatible with WPF -->
+                                        <Image Source="/Assets/cable_icon.png" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center"/>  
+                                        <TextBlock Text="Passar Cabo" VerticalAlignment="Center" Margin="8,0,0,0" />  
+                                    </StackPanel>  
+                                </Button.Content>  
                             </Button>
 
                         </StackPanel>
