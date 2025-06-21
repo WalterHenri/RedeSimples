@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedeSimples - Simule e Visualize Redes</title>
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Feather Icons for modern icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* Custom styles to complement Tailwind CSS */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0e1a; /* A darker, slightly blue background */
+            color: #e0e0e0;
+        }
+
+        /* Hero section background canvas */
+        #network-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.5;
+        }
+
+        /* Gradient text style */
+        .gradient-text {
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Professional button styling */
+        .btn-glow {
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.3), 0 0 20px rgba(56, 189, 248, 0.2);
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.6), 0 0 40px rgba(56, 189, 248, 0.4);
+        }
+
+        /* Scroll-based animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.6s ease-out;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mockup application window styling */
+        .app-mockup {
+            border: 1px solid #374151; /* gray-700 */
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            background-color: #1f2937; /* gray-800 */
+        }
+        .app-mockup-header {
+            padding: 0.75rem;
+            background-color: #374151; /* gray-700 */
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .app-mockup-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-opacity-80 backdrop-blur-md border-b border-gray-800">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-white">
+                <span class="gradient-text">Rede</span>Simples
+            </h1>
+            <a href="https://www.mediafire.com/file/zr6s24petozedqi/RedeSimples.Installer.msi/file" class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-6 rounded-lg btn-glow">
+                Download
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="relative h-screen flex items-center justify-center text-center overflow-hidden">
+            <canvas id="network-canvas"></canvas>
+            <div class="relative z-10 px-4">
+                <h2 class="text-4xl md:text-6xl font-black text-white leading-tight reveal">
+                    Crie e Simule Redes <br> com <span class="gradient-text">Facilidade</span>
+                </h2>
+                <p class="mt-4 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto reveal" style="transition-delay: 0.2s;">
+                    Uma ferramenta poderosa e intuitiva para desenhar, visualizar e entender topologias de rede. Perfeita para estudantes e profissionais de TI.
+                </p>
+                <div class="mt-8 reveal" style="transition-delay: 0.4s;">
+                    <a href="https://www.mediafire.com/file/zr6s24petozedqi/RedeSimples.Installer.msi/file" class="bg-sky-500 text-white font-bold py-4 px-10 text-lg rounded-lg btn-glow inline-block">
+                        Baixar Grátis para Windows
+                    </a>
+                    <p class="text-sm mt-3 text-gray-500">Versão 1.0 | Gratuito</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-20 bg-[#111521]">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h3 class="text-4xl font-bold text-white reveal">Tudo que você precisa em um só lugar</h3>
+                    <p class="text-lg text-gray-400 mt-2 reveal" style="transition-delay: 0.1s;">Explore os recursos que tornam o RedeSimples a melhor escolha.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Feature 1 -->
+                    <div class="bg-gray-800/50 p-8 rounded-xl border border-gray-700 reveal">
+                        <div class="bg-sky-500/10 text-sky-400 rounded-lg w-12 h-12 flex items-center justify-center">
+                            <i data-feather="move"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mt-4">Interface Arraste e Solte</h4>
+                        <p class="text-gray-400 mt-2">Construa sua rede de forma intuitiva. Adicione PCs, roteadores, switches e outros dispositivos com um simples arrastar e soltar.</p>
+                    </div>
+                    <!-- Feature 2 -->
+                    <div class="bg-gray-800/50 p-8 rounded-xl border border-gray-700 reveal" style="transition-delay: 0.2s;">
+                        <div class="bg-sky-500/10 text-sky-400 rounded-lg w-12 h-12 flex items-center justify-center">
+                            <i data-feather="git-pull-request"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mt-4">Visualização Clara</h4>
+                        <p class="text-gray-400 mt-2">Veja como os dispositivos se conectam e como os dados fluiriam. Edite propriedades e visualize a topologia completa facilmente.</p>
+                    </div>
+                    <!-- Feature 3 -->
+                    <div class="bg-gray-800/50 p-8 rounded-xl border border-gray-700 reveal" style="transition-delay: 0.4s;">
+                        <div class="bg-sky-500/10 text-sky-400 rounded-lg w-12 h-12 flex items-center justify-center">
+                            <i data-feather="terminal"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mt-4">Ferramentas de Análise</h4>
+                        <p class="text-gray-400 mt-2">Utilize ferramentas integradas como 'netstat' para analisar conexões ativas e entender melhor o comportamento da sua rede simulada.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screenshot Section -->
+        <section class="py-20">
+            <div class="container mx-auto px-6 text-center">
+                <h3 class="text-4xl font-bold text-white reveal">Veja o RedeSimples em Ação</h3>
+                <p class="text-lg text-gray-400 mt-2 mb-12 reveal" style="transition-delay: 0.1s;">Uma interface limpa e organizada para máxima produtividade.</p>
+                <div class="app-mockup reveal" style="transition-delay: 0.2s;">
+                    <div class="app-mockup-header">
+                        <div class="app-mockup-dot bg-red-500"></div>
+                        <div class="app-mockup-dot bg-yellow-500"></div>
+                        <div class="app-mockup-dot bg-green-500"></div>
+                    </div>
+                    <img src="https://placehold.co/1200x700/1f2937/e0e0e0?text=Interface+do+Aplicativo+RedeSimples" 
+                         alt="Screenshot da aplicação RedeSimples mostrando uma topologia de rede"
+                         class="w-full h-auto"
+                         onerror="this.onerror=null;this.src='https://placehold.co/1200x700/1f2937/e0e0e0?text=Erro+ao+carregar+imagem';">
+                </div>
+            </div>
+        </section>
+        
+        <!-- Download Section -->
+        <section id="download-section" class="py-20 bg-[#111521]">
+            <div class="container mx-auto px-6 text-center">
+                <h3 class="text-4xl font-bold text-white reveal">Pronto para começar?</h3>
+                <p class="text-lg text-gray-400 mt-2 mb-8 reveal" style="transition-delay: 0.1s;">Faça o download do RedeSimples agora mesmo e eleve seus projetos de rede a um novo patamar.</p>
+                <div class="reveal" style="transition-delay: 0.2s;">
+                    <!-- The anchor tag for the download. Replace '#' with the actual path to your installer file. -->
+                    <a href="https://www.mediafire.com/file/zr6s24petozedqi/RedeSimples.Installer.msi/file" download="RedeSimples_Installer.exe" class="bg-sky-500 text-white font-bold py-4 px-10 text-lg rounded-lg btn-glow inline-block">
+                        <i data-feather="download" class="inline-block -mt-1 mr-2"></i>
+                        Baixar o Instalador
+                    </a>
+                     <p class="text-sm mt-3 text-gray-500">Compatível com Windows 10 e 11</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-500">
+            <p>&copy; 2025 RedeSimples. Todos os direitos reservados.</p>
+            <p class="text-sm mt-1">Criado com ❤️ para a comunidade de redes.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        // --- Feather Icons Initialization ---
+        feather.replace();
+
+        // --- Network Canvas Animation ---
+        const canvas = document.getElementById('network-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor(x, y, radius, color, velocity) {
+                this.x = x;
+                this.y = y;
+                this.radius = radius;
+                this.color = color;
+                this.velocity = velocity;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.closePath();
+            }
+
+            update() {
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+
+                if (this.x - this.radius < 0 || this.x + this.radius > canvas.width) {
+                    this.velocity.x = -this.velocity.x;
+                }
+                if (this.y - this.radius < 0 || this.y + this.radius > canvas.height) {
+                    this.velocity.y = -this.velocity.y;
+                }
+                this.draw();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const particleCount = Math.floor(canvas.width / 25);
+            for (let i = 0; i < particleCount; i++) {
+                const radius = Math.random() * 1.5 + 1;
+                const x = Math.random() * (canvas.width - radius * 2) + radius;
+                const y = Math.random() * (canvas.height - radius * 2) + radius;
+                const velocity = {
+                    x: (Math.random() - 0.5) * 0.5,
+                    y: (Math.random() - 0.5) * 0.5
+                };
+                particles.push(new Particle(x, y, radius, 'rgba(56, 189, 248, 0.7)', velocity));
+            }
+        }
+
+        function connectParticles() {
+            for (let a = 0; a < particles.length; a++) {
+                for (let b = a; b < particles.length; b++) {
+                    const distance = Math.sqrt(
+                        Math.pow(particles[a].x - particles[b].x, 2) +
+                        Math.pow(particles[a].y - particles[b].y, 2)
+                    );
+
+                    if (distance < 100) {
+                        ctx.strokeStyle = `rgba(129, 140, 248, ${1 - distance / 100})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[a].x, particles[a].y);
+                        ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => p.update());
+            connectParticles();
+        }
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initParticles();
+        });
+
+        // --- Scroll Reveal Animation ---
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        revealElements.forEach(el => {
+            observer.observe(el);
+        });
+
+        // --- Initial Setup ---
+        resizeCanvas();
+        initParticles();
+        animate();
+    </script>
+</body>
+</html>
